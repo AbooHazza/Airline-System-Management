@@ -13,4 +13,4 @@ jobs:
 
     - name: Compile project
       run: |
-        g++ src/main.cpp src/Stack.cpp src/Queue.cpp -o airline
+        g++ src/Queue.cpp src/Stack.cpp -o airline
