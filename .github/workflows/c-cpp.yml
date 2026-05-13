@@ -11,6 +11,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Compile project
-      run: |
-        g++ src/Queue.cpp src/Stack.cpp -o airline
+    - name: Compile Queue
+      run: g++ src/Queue.cpp -o queue
+
+    - name: Compile Stack
+      run: g++ src/Stack.cpp -o stack
