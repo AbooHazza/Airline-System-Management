@@ -1,0 +1,16 @@
+name: C++ Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Compile project
+      run: |
+        g++ src/main.cpp src/Stack.cpp src/Queue.cpp -o airline
