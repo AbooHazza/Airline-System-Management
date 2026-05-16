@@ -6,6 +6,8 @@ A C++ project using Stack, Queue, and Linked List data structures.
 ## Data Structures Used
 - Stack → ...
 - Queue → ...
+- LinkedList → ...
+
 
 ## Project Structure
 
@@ -14,6 +16,7 @@ Airline-System-Management/
 ├── src/
 │   ├── Stack.cpp
 │   └── Queue.cpp
+│   └── LinkedList.cpp
 ├── .gitignore
 ├── LICENSE
 └── README.md
