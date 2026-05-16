@@ -3,11 +3,14 @@
 using namespace std;
 
 class Entity {
+
 protected:
     int ID;
 
 public:
+
     Entity() : ID(0) {}
+
     Entity(int id) : ID(id) {}
 
     int getID() const {
@@ -24,11 +27,13 @@ public:
 };
 
 class Passenger : public Entity {
+
 private:
     string Name;
     string PassportNo;
 
 public:
+
     Passenger() : Entity(0), Name(""), PassportNo("") {}
 
     Passenger(int id, string name, string passport)
@@ -51,18 +56,21 @@ public:
     }
 
     void display() override {
-        cout << "Passenger ID : " << ID << endl;
-        cout << "Name         : " << Name << endl;
-        cout << "Passport No  : " << PassportNo << endl;
+
+        cout << "Passenger ID   : " << ID << endl;
+        cout << "Name           : " << Name << endl;
+        cout << "Passport No    : " << PassportNo << endl;
     }
 };
 
 class BookingOffice : public Entity {
+
 private:
     string OfficeName;
     string Location;
 
 public:
+
     BookingOffice() : Entity(0), OfficeName(""), Location("") {}
 
     BookingOffice(int id, string name, string loc)
@@ -93,19 +101,22 @@ public:
     }
 
     void display() override {
-        cout << "Office ID    : " << ID << endl;
-        cout << "Office Name  : " << OfficeName << endl;
-        cout << "Location     : " << Location << endl;
+
+        cout << "Office ID      : " << ID << endl;
+        cout << "Office Name    : " << OfficeName << endl;
+        cout << "Location       : " << Location << endl;
     }
 };
 
 class Ticket : public Entity {
+
 private:
     string PassengerList;
     int FlightNo;
     string OfficeName;
 
 public:
+
     Ticket() : Entity(0), PassengerList(""), FlightNo(0), OfficeName("") {}
 
     Ticket(int tno, string plist, int fno, string oname)
@@ -144,14 +155,16 @@ public:
     }
 
     void display() override {
-        cout << "Ticket No    : " << ID << endl;
-        cout << "Passenger    : " << PassengerList << endl;
-        cout << "Flight No    : " << FlightNo << endl;
-        cout << "Office Name  : " << OfficeName << endl;
+
+        cout << "Ticket No      : " << ID << endl;
+        cout << "Passenger      : " << PassengerList << endl;
+        cout << "Flight No      : " << FlightNo << endl;
+        cout << "Office Name    : " << OfficeName << endl;
     }
 };
 
 struct TicketNode {
+
     Ticket data;
     TicketNode* next;
 
@@ -159,6 +172,7 @@ struct TicketNode {
 };
 
 class Flight : public Entity {
+
 private:
     string Destination;
     string Gate;
@@ -166,6 +180,7 @@ private:
     TicketNode* TicketList;
 
 public:
+
     Flight()
         : Entity(0),
           Destination(""),
@@ -181,15 +196,18 @@ public:
           TicketList(NULL) {}
 
     Flight(const Flight& f) : Entity(f.ID) {
+
         Destination = f.Destination;
         Gate = f.Gate;
         DepartureTime = f.DepartureTime;
+
         TicketList = NULL;
 
         TicketNode* curr = f.TicketList;
         TicketNode* tail = NULL;
 
         while (curr != NULL) {
+
             TicketNode* n = new TicketNode(curr->data);
 
             if (!TicketList) {
@@ -206,11 +224,14 @@ public:
     }
 
     ~Flight() {
+
         TicketNode* curr = TicketList;
 
         while (curr) {
+
             TicketNode* t = curr;
             curr = curr->next;
+
             delete t;
         }
     }
@@ -248,9 +269,11 @@ public:
     }
 
     void addTicketToFlight(Ticket t) {
+
         TicketNode* newNode = new TicketNode(t);
 
         if (!TicketList) {
+
             TicketList = newNode;
             return;
         }
@@ -265,6 +288,7 @@ public:
     }
 
     void display() override {
+
         cout << "Flight ID      : " << ID << endl;
         cout << "Destination    : " << Destination << endl;
         cout << "Gate           : " << Gate << endl;
@@ -274,21 +298,26 @@ public:
         TicketNode* curr = TicketList;
 
         if (!curr) {
-            cout << "No Tickets" << endl;
+
+            cout << "No Tickets Issued" << endl;
             return;
         }
 
         int count = 1;
 
         while (curr) {
+
             cout << "Ticket " << count++ << endl;
+
             curr->data.display();
+
             curr = curr->next;
         }
     }
 };
 
 struct PassengerNode {
+
     Passenger data;
     PassengerNode* next;
 
@@ -296,6 +325,7 @@ struct PassengerNode {
 };
 
 struct FlightNode {
+
     Flight data;
     FlightNode* next;
 
@@ -303,6 +333,7 @@ struct FlightNode {
 };
 
 struct OfficeNode {
+
     BookingOffice data;
     OfficeNode* next;
 
@@ -310,6 +341,7 @@ struct OfficeNode {
 };
 
 struct GlobalTicketNode {
+
     Ticket data;
     GlobalTicketNode* next;
 
@@ -322,32 +354,41 @@ OfficeNode* officeHead = NULL;
 GlobalTicketNode* ticketHead = NULL;
 
 void printLine() {
+
     cout << "------------------------------------------" << endl;
 }
 
 void cleanupMemory() {
 
     while (passengerHead) {
+
         PassengerNode* temp = passengerHead;
         passengerHead = passengerHead->next;
+
         delete temp;
     }
 
     while (flightHead) {
+
         FlightNode* temp = flightHead;
         flightHead = flightHead->next;
+
         delete temp;
     }
 
     while (officeHead) {
+
         OfficeNode* temp = officeHead;
         officeHead = officeHead->next;
+
         delete temp;
     }
 
     while (ticketHead) {
+
         GlobalTicketNode* temp = ticketHead;
         ticketHead = ticketHead->next;
+
         delete temp;
     }
 }
@@ -361,6 +402,7 @@ void addPassenger() {
     cout << endl;
     cout << "Enter Passenger ID : ";
     cin >> id;
+
     cin.ignore();
 
     cout << "Enter Passenger Name : ";
@@ -373,6 +415,7 @@ void addPassenger() {
         new PassengerNode(Passenger(id, name, passport));
 
     if (passengerHead == NULL) {
+
         passengerHead = newNode;
     }
     else {
@@ -393,12 +436,14 @@ void addPassenger() {
 void displayPassengers() {
 
     if (passengerHead == NULL) {
+
         cout << endl;
         cout << "Passenger Linked List is Empty" << endl;
         return;
     }
 
     PassengerNode* curr = passengerHead;
+
     int count = 1;
 
     cout << endl;
@@ -415,40 +460,6 @@ void displayPassengers() {
     }
 }
 
-void deletePassenger() {
-
-    if (passengerHead == NULL) {
-        cout << endl;
-        cout << "Passenger Linked List is Empty" << endl;
-        return;
-    }
-
-    PassengerNode* temp = passengerHead;
-
-    cout << endl;
-    cout << "Deleted Passenger" << endl;
-
-    temp->data.display();
-
-    passengerHead = passengerHead->next;
-
-    delete temp;
-}
-
-void firstPassenger() {
-
-    if (passengerHead == NULL) {
-        cout << endl;
-        cout << "Passenger Linked List is Empty" << endl;
-        return;
-    }
-
-    cout << endl;
-    cout << "First Passenger" << endl;
-
-    passengerHead->data.display();
-}
-
 void addFlight() {
 
     int id;
@@ -459,6 +470,7 @@ void addFlight() {
     cout << endl;
     cout << "Enter Flight ID : ";
     cin >> id;
+
     cin.ignore();
 
     cout << "Enter Destination : ";
@@ -474,6 +486,7 @@ void addFlight() {
         new FlightNode(Flight(id, dest, gate, depTime));
 
     if (flightHead == NULL) {
+
         flightHead = newNode;
     }
     else {
@@ -494,16 +507,174 @@ void addFlight() {
 void displayFlights() {
 
     if (flightHead == NULL) {
+
         cout << endl;
         cout << "Flight Linked List is Empty" << endl;
         return;
     }
 
     FlightNode* curr = flightHead;
+
     int count = 1;
 
     cout << endl;
     cout << "Flight Linked List" << endl;
+
+    while (curr) {
+
+        cout << endl;
+        cout << "Node " << count++ << endl;
+
+        curr->data.display();
+
+        curr = curr->next;
+    }
+}
+
+void addOffice() {
+
+    int id;
+    string name;
+    string loc;
+
+    cout << endl;
+    cout << "Enter Office ID : ";
+    cin >> id;
+
+    cin.ignore();
+
+    cout << "Enter Office Name : ";
+    getline(cin, name);
+
+    cout << "Enter Location : ";
+    getline(cin, loc);
+
+    OfficeNode* newNode =
+        new OfficeNode(BookingOffice(id, name, loc));
+
+    if (officeHead == NULL) {
+
+        officeHead = newNode;
+    }
+    else {
+
+        OfficeNode* curr = officeHead;
+
+        while (curr->next != NULL) {
+            curr = curr->next;
+        }
+
+        curr->next = newNode;
+    }
+
+    cout << endl;
+    cout << "Office Added Successfully" << endl;
+}
+
+void displayOffices() {
+
+    if (officeHead == NULL) {
+
+        cout << endl;
+        cout << "Office Linked List is Empty" << endl;
+        return;
+    }
+
+    OfficeNode* curr = officeHead;
+
+    int count = 1;
+
+    cout << endl;
+    cout << "Office Linked List" << endl;
+
+    while (curr) {
+
+        cout << endl;
+        cout << "Node " << count++ << endl;
+
+        curr->data.display();
+
+        curr = curr->next;
+    }
+}
+
+void addTicket() {
+
+    int tno;
+    int fno;
+
+    string pname;
+    string oname;
+
+    cout << endl;
+    cout << "Enter Ticket No : ";
+    cin >> tno;
+
+    cin.ignore();
+
+    cout << "Enter Passenger Name : ";
+    getline(cin, pname);
+
+    cout << "Enter Flight No : ";
+    cin >> fno;
+
+    cin.ignore();
+
+    cout << "Enter Office Name : ";
+    getline(cin, oname);
+
+    Ticket t(tno, pname, fno, oname);
+
+    GlobalTicketNode* newNode =
+        new GlobalTicketNode(t);
+
+    if (ticketHead == NULL) {
+
+        ticketHead = newNode;
+    }
+    else {
+
+        GlobalTicketNode* curr = ticketHead;
+
+        while (curr->next != NULL) {
+            curr = curr->next;
+        }
+
+        curr->next = newNode;
+    }
+
+    FlightNode* fc = flightHead;
+
+    while (fc) {
+
+        if (fc->data.getFlightID() == fno) {
+
+            fc->data.addTicketToFlight(t);
+            break;
+        }
+
+        fc = fc->next;
+    }
+
+    cout << endl;
+    cout << "Ticket Added Successfully" << endl;
+}
+
+void displayTickets() {
+
+    if (ticketHead == NULL) {
+
+        cout << endl;
+        cout << "Ticket Linked List is Empty" << endl;
+        return;
+    }
+
+    GlobalTicketNode* curr = ticketHead;
+
+    int count = 1;
+
+    cout << endl;
+    cout << "Ticket Linked List" << endl;
 
     while (curr) {
 
@@ -521,64 +692,84 @@ int main() {
     int choice;
 
     cout << endl;
+
     printLine();
+
     cout << "AIRLINE MANAGEMENT SYSTEM [LINKED LIST]" << endl;
+
     printLine();
 
     do {
 
         cout << endl;
+
         cout << "MAIN MENU" << endl;
 
         printLine();
 
-        cout << "1. Add Passenger" << endl;
-        cout << "2. Display Passengers" << endl;
-        cout << "3. Delete Passenger" << endl;
-        cout << "4. First Passenger" << endl;
-        cout << "5. Add Flight" << endl;
-        cout << "6. Display Flights" << endl;
+        cout << "1. Add Flight" << endl;
+        cout << "2. Display Flights" << endl;
+        cout << "3. Add Booking Office" << endl;
+        cout << "4. Display Booking Offices" << endl;
+        cout << "5. Add Passenger" << endl;
+        cout << "6. Display Passengers" << endl;
+        cout << "7. Add Ticket" << endl;
+        cout << "8. Display Tickets" << endl;
         cout << "0. Exit" << endl;
 
         printLine();
 
         cout << "Enter Choice : ";
+
         cin >> choice;
 
         switch (choice) {
 
         case 1:
-            addPassenger();
-            break;
-
-        case 2:
-            displayPassengers();
-            break;
-
-        case 3:
-            deletePassenger();
-            break;
-
-        case 4:
-            firstPassenger();
-            break;
-
-        case 5:
             addFlight();
             break;
 
-        case 6:
+        case 2:
             displayFlights();
             break;
 
+        case 3:
+            addOffice();
+            break;
+
+        case 4:
+            displayOffices();
+            break;
+
+        case 5:
+            addPassenger();
+            break;
+
+        case 6:
+            displayPassengers();
+            break;
+
+        case 7:
+            addTicket();
+            break;
+
+        case 8:
+            displayTickets();
+            break;
+
         case 0:
+
             cleanupMemory();
+
             cout << endl;
             cout << "Goodbye" << endl;
+
             printLine();
+
             break;
 
         default:
+
             cout << "Invalid Option" << endl;
         }
 
