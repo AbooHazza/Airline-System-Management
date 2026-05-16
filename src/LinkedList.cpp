@@ -195,7 +195,8 @@ public:
             if (!TicketList) {
                 TicketList = n;
                 tail = n;
-            } else {
+            }
+            else {
                 tail->next = n;
                 tail = n;
             }
@@ -256,8 +257,9 @@ public:
 
         TicketNode* curr = TicketList;
 
-        while (curr->next)
+        while (curr->next) {
             curr = curr->next;
+        }
 
         curr->next = newNode;
     }
@@ -267,6 +269,7 @@ public:
         cout << "Destination    : " << Destination << endl;
         cout << "Gate           : " << Gate << endl;
         cout << "Departure Time : " << DepartureTime << endl;
+        cout << "Tickets Issued :" << endl;
 
         TicketNode* curr = TicketList;
 
@@ -319,19 +322,48 @@ OfficeNode* officeHead = NULL;
 GlobalTicketNode* ticketHead = NULL;
 
 void printLine() {
-    cout << "----------------------------------" << endl;
+    cout << "------------------------------------------" << endl;
+}
+
+void cleanupMemory() {
+
+    while (passengerHead) {
+        PassengerNode* temp = passengerHead;
+        passengerHead = passengerHead->next;
+        delete temp;
+    }
+
+    while (flightHead) {
+        FlightNode* temp = flightHead;
+        flightHead = flightHead->next;
+        delete temp;
+    }
+
+    while (officeHead) {
+        OfficeNode* temp = officeHead;
+        officeHead = officeHead->next;
+        delete temp;
+    }
+
+    while (ticketHead) {
+        GlobalTicketNode* temp = ticketHead;
+        ticketHead = ticketHead->next;
+        delete temp;
+    }
 }
 
 void addPassenger() {
+
     int id;
     string name;
     string passport;
 
+    cout << endl;
     cout << "Enter Passenger ID : ";
     cin >> id;
     cin.ignore();
 
-    cout << "Enter Name : ";
+    cout << "Enter Passenger Name : ";
     getline(cin, name);
 
     cout << "Enter Passport No : ";
@@ -340,41 +372,91 @@ void addPassenger() {
     PassengerNode* newNode =
         new PassengerNode(Passenger(id, name, passport));
 
-    if (!passengerHead) {
+    if (passengerHead == NULL) {
         passengerHead = newNode;
-    } else {
+    }
+    else {
+
         PassengerNode* curr = passengerHead;
 
-        while (curr->next)
+        while (curr->next != NULL) {
             curr = curr->next;
+        }
 
         curr->next = newNode;
     }
 
-    cout << "Passenger Added" << endl;
+    cout << endl;
+    cout << "Passenger Added Successfully" << endl;
 }
 
 void displayPassengers() {
-    if (!passengerHead) {
-        cout << "Empty List" << endl;
+
+    if (passengerHead == NULL) {
+        cout << endl;
+        cout << "Passenger Linked List is Empty" << endl;
         return;
     }
 
     PassengerNode* curr = passengerHead;
+    int count = 1;
+
+    cout << endl;
+    cout << "Passenger Linked List" << endl;
 
     while (curr) {
+
+        cout << endl;
+        cout << "Node " << count++ << endl;
+
         curr->data.display();
-        printLine();
+
         curr = curr->next;
     }
 }
 
+void deletePassenger() {
+
+    if (passengerHead == NULL) {
+        cout << endl;
+        cout << "Passenger Linked List is Empty" << endl;
+        return;
+    }
+
+    PassengerNode* temp = passengerHead;
+
+    cout << endl;
+    cout << "Deleted Passenger" << endl;
+
+    temp->data.display();
+
+    passengerHead = passengerHead->next;
+
+    delete temp;
+}
+
+void firstPassenger() {
+
+    if (passengerHead == NULL) {
+        cout << endl;
+        cout << "Passenger Linked List is Empty" << endl;
+        return;
+    }
+
+    cout << endl;
+    cout << "First Passenger" << endl;
+
+    passengerHead->data.display();
+}
+
 void addFlight() {
+
     int id;
     string dest;
     string gate;
-    string dep;
+    string depTime;
 
+    cout << endl;
     cout << "Enter Flight ID : ";
     cin >> id;
     cin.ignore();
@@ -386,54 +468,76 @@ void addFlight() {
     getline(cin, gate);
 
     cout << "Enter Departure Time : ";
-    getline(cin, dep);
+    getline(cin, depTime);
 
     FlightNode* newNode =
-        new FlightNode(Flight(id, dest, gate, dep));
+        new FlightNode(Flight(id, dest, gate, depTime));
 
-    if (!flightHead) {
+    if (flightHead == NULL) {
         flightHead = newNode;
-    } else {
+    }
+    else {
+
         FlightNode* curr = flightHead;
 
-        while (curr->next)
+        while (curr->next != NULL) {
             curr = curr->next;
+        }
 
         curr->next = newNode;
     }
 
-    cout << "Flight Added" << endl;
+    cout << endl;
+    cout << "Flight Added Successfully" << endl;
 }
 
 void displayFlights() {
-    if (!flightHead) {
-        cout << "Empty List" << endl;
+
+    if (flightHead == NULL) {
+        cout << endl;
+        cout << "Flight Linked List is Empty" << endl;
         return;
     }
 
     FlightNode* curr = flightHead;
+    int count = 1;
+
+    cout << endl;
+    cout << "Flight Linked List" << endl;
 
     while (curr) {
+
+        cout << endl;
+        cout << "Node " << count++ << endl;
+
         curr->data.display();
-        printLine();
+
         curr = curr->next;
     }
 }
 
 int main() {
+
     int choice;
 
-    do {
-        printLine();
+    cout << endl;
+    printLine();
+    cout << "AIRLINE MANAGEMENT SYSTEM [LINKED LIST]" << endl;
+    printLine();
 
-        cout << "AIRLINE MANAGEMENT SYSTEM" << endl;
+    do {
+
+        cout << endl;
+        cout << "MAIN MENU" << endl;
 
         printLine();
 
         cout << "1. Add Passenger" << endl;
         cout << "2. Display Passengers" << endl;
-        cout << "3. Add Flight" << endl;
-        cout << "4. Display Flights" << endl;
+        cout << "3. Delete Passenger" << endl;
+        cout << "4. First Passenger" << endl;
+        cout << "5. Add Flight" << endl;
+        cout << "6. Display Flights" << endl;
         cout << "0. Exit" << endl;
 
         printLine();
@@ -442,6 +546,7 @@ int main() {
         cin >> choice;
 
         switch (choice) {
+
         case 1:
             addPassenger();
             break;
@@ -451,19 +556,30 @@ int main() {
             break;
 
         case 3:
-            addFlight();
+            deletePassenger();
             break;
 
         case 4:
+            firstPassenger();
+            break;
+
+        case 5:
+            addFlight();
+            break;
+
+        case 6:
             displayFlights();
             break;
 
         case 0:
+            cleanupMemory();
+            cout << endl;
             cout << "Goodbye" << endl;
+            printLine();
             break;
 
         default:
-            cout << "Invalid Choice" << endl;
+            cout << "Invalid Option" << endl;
         }
 
     } while (choice != 0);
